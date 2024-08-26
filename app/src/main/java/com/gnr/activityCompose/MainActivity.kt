@@ -2,6 +2,7 @@ package com.gnr.activityCompose
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +54,9 @@ fun ViewContainer(){
         topBar = {Toolbar()},
         content = { paddingValues ->
             Content(modifier = Modifier.padding(paddingValues))
-        }
+        },
+        floatingActionButton = { FAB()},
+        floatingActionButtonPosition = FabPosition.End
     )
 }
 
@@ -61,12 +67,22 @@ fun Toolbar(){
 }
 
 @Composable
+fun FAB () {
+    val context = LocalContext.current
+    FloatingActionButton(onClick = {
+        Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+    }) {
+        Text(text = "o")
+    }
+}
+
+@Composable
 fun Content(modifier: Modifier = Modifier) {
 
     var counter by rememberSaveable { mutableStateOf(0) }
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .background(Color.Gray)
             .padding(16.dp)
             .fillMaxSize()
